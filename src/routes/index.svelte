@@ -2,26 +2,13 @@
 	import Counter from '$lib/Counter.svelte';
 </script>
 
-<main>
-	<h1>Hello world!</h1>
+<h1>Hello world!</h1>
 
-	<Counter />
+<Counter />
 
-	<p>Visit <a href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte apps.</p>
-</main>
+<p>Visit <a href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte apps.</p>
 
 <style>
-	:root {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
-			'Open Sans', 'Helvetica Neue', sans-serif;
-	}
-
-	main {
-		text-align: center;
-		padding: 1em;
-		margin: 0 auto;
-	}
-
 	h1 {
 		color: #ff3e00;
 		text-transform: uppercase;
