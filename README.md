@@ -1,42 +1,11 @@
-# create-svelte
+# sveltekit-example
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte);
+Example to show firebase auth used on the client and accessed via a Svelte Store.
 
-## Creating a project
+Firebase SDK Packages are lazy-loaded from the CDN. This ensures that the application starts up quickly (rather than waiting for the large firebase bundles to load) and also auth can load and initialize before opther packages (e.g. firestore isn't loaded unless the user is signed in). The auth store ensures that the firebase code is only loaded and called when the page is running in the browser.
 
-If you're seeing this, you've probably already done this step. Congrats!
+TIP: comment out the `<Auth />` import and component in `$layout.svelte` and notice that no firebase libs are requested.
 
-```bash
-# create a new project in the current directory
-npm init svelte@next
+A simpler example could just include the firebase CDN scripts in the app.html file but I find the approach keeps the page zippy while also avoiding re-bundling the firebase SDK into the app so it has the benefit of potentially loading faster via the CDN.
 
-# create a new project in my-app
-npm init svelte@next my-app
-```
-
-> Note: the `@next` is temporary
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-Svelte apps are built with _adapters_, which optimise your project for deployment to different environments.
-
-By default, `npm run build` will generate a Node app that you can run with `node build`. To use a different adapter, add it to the `devDependencies` in `package.json` making sure to specify the version as `next` and update your `svelte.config.cjs` to [specify your chosen adapter](https://kit.svelte.dev/docs#configuration-adapter). The following official adapters are available:
-
-- [@sveltejs/adapter-node](https://github.com/sveltejs/kit/tree/master/packages/adapter-node)
-- [@sveltejs/adapter-static](https://github.com/sveltejs/kit/tree/master/packages/adapter-static)
-- [@sveltejs/adapter-netlify](https://github.com/sveltejs/kit/tree/master/packages/adapter-netlify)
-- [@sveltejs/adapter-vercel](https://github.com/sveltejs/kit/tree/master/packages/adapter-vercel)
-- ...more soon
-
-[See the adapter documentation for more detail](https://kit.svelte.dev/docs#adapters)
+When I have time, I'll show how the firebase-admin SDK can also be references and used to set firebase session cookies in order to enable firebase auth checks inside server endpoints and also to server-side-render pages with data coming from firestore.

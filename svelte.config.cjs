@@ -1,6 +1,7 @@
 const sveltePreprocess = require('svelte-preprocess');
 const node = require('@sveltejs/adapter-node');
 const pkg = require('./package.json');
+const firebase = require('firebase/package.json');
 
 /** @type {import('@sveltejs/kit').Config} */
 module.exports = {
@@ -19,6 +20,9 @@ module.exports = {
 		vite: {
 			ssr: {
 				noExternal: Object.keys(pkg.dependencies || {})
+			},
+			define: {
+				FIREBASE_SDK_VERSION: JSON.stringify(firebase.version),
 			}
 		}
 	}
