@@ -1,20 +1,20 @@
-import type { default as firebase } from 'firebase'
-
 import { writable } from 'svelte/store'
 import { browser } from '$app/env'
-import { loadAuth } from './firebase'
+import { getAuth, onAuthStateChanged, signInWithRedirect, signOut as _signOut, GoogleAuthProvider } from "firebase/auth"
+import type { User } from "firebase/auth"
+import { app } from './firebase'
 
 export interface AuthState {
-  user: firebase.User | null
+  user: User | null
   known: boolean
 }
 
 const createAuth = () => {
   const { subscribe, set } = writable<AuthState>({ user: null, known: false })
+  const auth = getAuth(app)
 
   async function listen() {
-    const auth = await loadAuth
-    auth.onAuthStateChanged(
+    onAuthStateChanged(auth,
       user => set({ user, known: true }),
       err => console.error(err.message),
     )
@@ -28,25 +28,21 @@ const createAuth = () => {
     set({ user: null, known: true })
   }
 
-  async function providerFor(name: string) {
-    const auth = await loadAuth
+  function providerFor(name: string) {
     switch (name) {
-      case 'google':   return new window.firebase.auth.GoogleAuthProvider()
-      case 'facebook': return new window.firebase.auth.FacebookAuthProvider()
-      case 'twitter':  return new window.firebase.auth.TwitterAuthProvider()
+      case 'google':   return new GoogleAuthProvider()
       default:         throw 'unknown provider ' + name
     }
   }
 
   async function signInWith(name: string) {
-    const auth = await loadAuth
-    const provider = await providerFor(name)
-    await auth.signInWithRedirect(provider)
+    const provider = providerFor(name)
+    console.log(auth, provider)
+    await signInWithRedirect(auth, provider)
   }
 
   async function signOut() {
-    const auth = await loadAuth
-    await auth.signOut()
+    await _signOut(auth)
   }
 
   return {

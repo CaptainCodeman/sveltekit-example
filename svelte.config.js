@@ -19,6 +19,9 @@ const config = {
 		target: '#svelte',
 
 		vite: {
+			build: {
+				sourcemap: true,
+			},
 			define: {
 				FIREBASE_SDK_VERSION: JSON.stringify(firebase.version),
 			}
