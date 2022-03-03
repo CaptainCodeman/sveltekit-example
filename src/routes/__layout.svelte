@@ -1,9 +1,9 @@
-<script lang="ts">
-  import Auth from '$lib/Auth.svelte'
-</script>
+<nav>
+	<a href="/">Home</a>
+	<a href="/authed">Authed Page</a>
+</nav>
 
 <main>
-	<Auth />
 	<slot></slot>
 </main>
 
