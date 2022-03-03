@@ -1,34 +1,33 @@
 import { writable } from 'svelte/store'
 import { browser } from '$app/env'
-import { getAuth, onAuthStateChanged, signInWithRedirect, signOut as _signOut, GoogleAuthProvider } from "firebase/auth"
-import type { User } from "firebase/auth"
-import { app } from './firebase'
-
-export interface AuthState {
-  user: User | null
-  known: boolean
-}
+import type { Auth, User } from "firebase/auth"
 
 const createAuth = () => {
-  const { subscribe, set } = writable<AuthState>({ user: null, known: false })
+  let auth: Auth
 
-  async function listen() {
-    const auth = getAuth(app)
-    onAuthStateChanged(auth,
-      user => set({ user, known: true }),
-      err => console.error(err.message),
-    )
-  }
+  const { subscribe } = writable<User>(undefined, set => {
+    let unsubscribe = () => {}
 
-  if (browser) {
-    // listen to auth changes on client
+    async function listen() {
+      if (browser) {
+        const { app } = await import('./app')
+        const { getAuth, onAuthStateChanged } = await import('firebase/auth')
+
+        auth = getAuth(app)
+
+        unsubscribe = onAuthStateChanged(auth, set)
+      } else {
+        set(null)
+      }
+    }
+
     listen()
-  } else {
-    // no auth on server in this example
-    set({ user: null, known: true })
-  }
 
-  function providerFor(name: string) {
+    return unsubscribe()
+  })
+
+  async function providerFor(name: string) {
+    const { GoogleAuthProvider } = await import('firebase/auth')
     switch (name) {
       case 'google':   return new GoogleAuthProvider()
       default:         throw 'unknown provider ' + name
@@ -36,14 +35,14 @@ const createAuth = () => {
   }
 
   async function signInWith(name: string) {
-    const auth = getAuth(app)
-    const provider = providerFor(name)
+    const { signInWithRedirect } = await import('firebase/auth')
+    const provider = await providerFor(name)
     await signInWithRedirect(auth, provider)
   }
 
   async function signOut() {
-    const auth = getAuth(app)
-    await _signOut(auth)
+    const { signOut } = await import('firebase/auth')
+    await signOut(auth)
   }
 
   return {

@@ -13,12 +13,12 @@
   }
 </style>
 
-{#if $auth.known}
-  {#if $auth.user}
-    <button on:click={() => auth.signOut()}>Sign Out</button>{$auth.user.displayName} ({$auth.user.email})
-  {:else}
-    <button on:click={() => auth.signInWith('google')}>Sign In with Google</button>(visitor)
-  {/if}
-{:else}
+{#if $auth === undefined}
   Checking auth status &hellip;
+{:else}
+  {#if $auth === null}
+    <button on:click={() => auth.signInWith('google')}>Sign In with Google</button>(visitor)
+  {:else}
+    <button on:click={() => auth.signOut()}>Sign Out</button>{$auth.displayName} ({$auth.email})
+  {/if}
 {/if}
