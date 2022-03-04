@@ -23,7 +23,7 @@ const createAuth = () => {
 
     listen()
 
-    return unsubscribe()
+    return () => unsubscribe()
   })
 
   async function providerFor(name: string) {
