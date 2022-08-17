@@ -5,8 +5,8 @@ import type { Auth, User } from "firebase/auth"
 const createAuth = () => {
   let auth: Auth
 
-  const { subscribe } = readable<User>(undefined, set => {
-    let unsubscribe = () => {}
+  const { subscribe } = readable<User | null>(undefined, set => {
+    let unsubscribe = () => { }
 
     async function listen() {
       if (browser) {
@@ -29,8 +29,8 @@ const createAuth = () => {
   async function providerFor(name: string) {
     const { GoogleAuthProvider } = await import('firebase/auth')
     switch (name) {
-      case 'google':   return new GoogleAuthProvider()
-      default:         throw 'unknown provider ' + name
+      case 'google': return new GoogleAuthProvider()
+      default: throw 'unknown provider ' + name
     }
   }
 
