@@ -3,9 +3,9 @@
 	"type": "module",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "svelte-kit dev",
-		"build": "svelte-kit build",
-		"preview": "svelte-kit preview"
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-static": "next",
@@ -15,7 +15,7 @@
 		"svelte-preprocess": "^4.10.4",
 		"tslib": "^2.3.1",
 		"typescript": "^4.6.2",
-		"vite": "^2.8.6"
+		"vite": "^3.0.8"
 	},
 	"engines": {
 		"node": ">= 14"
