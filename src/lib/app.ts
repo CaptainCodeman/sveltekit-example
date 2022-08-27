@@ -1,13 +1,42 @@
-import { initializeApp } from "firebase/app"
+import { browser, dev } from '$app/env'
+import type { FirebaseApp, FirebaseOptions } from 'firebase/app'
+import { readable } from 'svelte/store'
+import {
+  PUBLIC_FIREBASE_API_KEY,
+  PUBLIC_FIREBASE_AUTH_DOMAIN,
+  PUBLIC_FIREBASE_PROJECT_ID,
+  PUBLIC_FIREBASE_STORAGE_BUCKET,
+  PUBLIC_FIREBASE_MESSAGE_SENDER_ID,
+  PUBLIC_FIREBASE_APP_ID,
+} from '$env/static/public'
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBzbLDdqWRL-zvw3UiTvvQufiEjLNNqUUc",
-  authDomain: "captaincodeman-experiment.firebaseapp.com",
-  databaseURL: "https://captaincodeman-experiment.firebaseio.com",
-  projectId: "captaincodeman-experiment",
-  storageBucket: "captaincodeman-experiment.appspot.com",
-  messagingSenderId: "341877389348",
-  appId: "1:341877389348:web:7c926f1f20ca49476b00b1"
-};
+const firebaseConfig: FirebaseOptions = dev
+  ? { apiKey: 'demo', authDomain: 'demo.firebaseapp.com' }
+  : {
+    apiKey: PUBLIC_FIREBASE_API_KEY,
+    authDomain: PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: PUBLIC_FIREBASE_MESSAGE_SENDER_ID,
+    appId: PUBLIC_FIREBASE_APP_ID,
+  }
 
-export const app = initializeApp(firebaseConfig)
+function createApp() {
+  let app: FirebaseApp
+
+  const { subscribe } = readable<FirebaseApp>(undefined, (set) => {
+    async function init() {
+      if (!app) {
+        const { initializeApp } = await import('firebase/app')
+        app = initializeApp(firebaseConfig)
+      }
+      set(app)
+    }
+
+    if (browser) init()
+  })
+
+  return { subscribe }
+}
+
+export const app = createApp()

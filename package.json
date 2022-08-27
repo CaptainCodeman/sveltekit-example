@@ -5,19 +5,26 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"emulators:start": "firebase emulators:start"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-static": "next",
-		"@sveltejs/kit": "next",
-		"firebase": "^9.6.7",
-		"svelte": "^3.46.4",
-		"svelte-preprocess": "^4.10.4",
-		"tslib": "^2.3.1",
-		"typescript": "^4.6.2",
-		"vite": "^3.0.8"
+		"@firebase/app-types": "^0.7.0",
+		"@sveltejs/adapter-node": "next",
+		"@sveltejs/kit": "1.0.0-next.444",
+		"@types/cookie": "^0.5.1",
+		"firebase": "^9.9.3",
+		"firebase-admin": "^11.0.1",
+		"svelte": "^3.49.0",
+		"svelte-preprocess": "^4.10.7",
+		"tslib": "^2.4.0",
+		"typescript": "^4.8.2",
+		"vite": "^3.0.9"
 	},
 	"engines": {
 		"node": ">= 14"
+	},
+	"dependencies": {
+		"cookie": "^0.5.0"
 	}
 }

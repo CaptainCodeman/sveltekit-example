@@ -1,5 +1,5 @@
 import preprocess from 'svelte-preprocess'
-import adapt from '@sveltejs/adapter-static'
+import adapt from '@sveltejs/adapter-node'
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -12,7 +12,7 @@ const config = {
 		// You can create optimized builds for different platforms by
 		// specifying a different adapter
 		adapter: adapt(),
-	}
+	},
 }
 
 export default config

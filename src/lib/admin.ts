@@ -1,0 +1,11 @@
+import { initializeApp } from 'firebase-admin'
+import { getAuth } from 'firebase-admin/auth'
+
+const useEmulator = true
+
+if (useEmulator) {
+  process.env['FIREBASE_AUTH_EMULATOR_HOST'] = '127.0.0.1:9099'
+}
+
+export const app = initializeApp({ projectId: 'demo-sveltekit' })
+export const auth = getAuth(app)
