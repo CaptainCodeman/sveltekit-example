@@ -3,7 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@firebase/app-types': ^0.7.0
   '@sveltejs/adapter-node': next
-  '@sveltejs/kit': 1.0.0-next.444
+  '@sveltejs/kit': next
   '@types/cookie': ^0.5.1
   cookie: ^0.5.0
   firebase: ^9.9.3
@@ -20,7 +20,7 @@ dependencies:
 devDependencies:
   '@firebase/app-types': 0.7.0
   '@sveltejs/adapter-node': 1.0.0-next.87
-  '@sveltejs/kit': 1.0.0-next.444_svelte@3.49.0+vite@3.0.9
+  '@sveltejs/kit': 1.0.0-next.446_svelte@3.49.0+vite@3.0.9
   '@types/cookie': 0.5.1
   firebase: 9.9.3
   firebase-admin: 11.0.1_@firebase+app-types@0.7.0
@@ -676,8 +676,8 @@ packages:
     resolution: {integrity: sha512-ktvZ0+uthYH6SQMO34acbqkReeIcNMD1b7fnWqRIBj5CrgeBarvmbcj+x3/QKpOIG7s11yjwgYhOGLxZX0VMHw==}
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.444_svelte@3.49.0+vite@3.0.9:
-    resolution: {integrity: sha512-B9ekUK5r/3IODxyXjAmEWFC1ytxRlsnApgF8qV/2IJWvWXvj62PjB8qK7UBvMM9A1codfx94RMvj9r6wTKRIAA==}
+  /@sveltejs/kit/1.0.0-next.446_svelte@3.49.0+vite@3.0.9:
+    resolution: {integrity: sha512-xcmkMM60OmI3rUVablbIjAiI/K9VRih62RSrNbtwZmLkf09q3irCflS8cDp2m8Z27100VRHgV0ACB0Z/JnL/0w==}
     engines: {node: '>=16.9'}
     hasBin: true
     requiresBuild: true

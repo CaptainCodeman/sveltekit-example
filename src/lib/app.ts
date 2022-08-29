@@ -1,4 +1,4 @@
-import { browser, dev } from '$app/env'
+import { browser, dev } from '$app/environment'
 import type { FirebaseApp, FirebaseOptions } from 'firebase/app'
 import { readable } from 'svelte/store'
 import {
@@ -21,6 +21,8 @@ const firebaseConfig: FirebaseOptions = dev
     appId: PUBLIC_FIREBASE_APP_ID,
   }
 
+// load the firebase app on demand by putting it in a store
+// this can then be used in derived stores for auth, firestore, and other services
 function createApp() {
   let app: FirebaseApp
 

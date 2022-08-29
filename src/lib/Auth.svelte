@@ -1,14 +1,13 @@
 <script lang="ts">
 	import { auth } from './auth'
-	import { user } from './user'
+	import { session } from './session'
 </script>
 
-{#if $user === undefined}
-	Checking auth status &hellip;
-{:else if $user === null}
-	<button on:click={() => auth.signInWith('google')}>Sign In with Google</button>(visitor)
+<!-- using the session state avoids the initial delay while the client auth resolves -->
+{#if $session.user}
+	<button on:click={() => auth.signOut()}>Sign Out</button>{$session.user.name} ({$session.user.email})
 {:else}
-	<button on:click={() => auth.signOut()}>Sign Out</button>{$user.displayName} ({$user.email})
+	<button on:click={() => auth.signInWith('google')}>Sign In with Google</button>(visitor)
 {/if}
 
 <style>

@@ -3,13 +3,19 @@
 // and what to do when importing types
 declare namespace App {
   interface Locals {
-    user: import('firebase-admin/auth').DecodedIdToken
+    // user is populated from the session cookie
+    user: import('firebase-admin/auth').DecodedIdToken | null
   }
 
   // interface Platform {}
   interface PageData {
-    user: import('firebase-admin/auth').DecodedIdToken
+    // we're making user a property of session in case it needs to contain other things
+    // it would be possible, for instance, to have use preferences set even if not auth'd
+    session: {
+      user: import('firebase-admin/auth').DecodedIdToken | null
+    }
   }
+
   // interface PrivateEnv {}
   // interface PublicEnv {}
 }

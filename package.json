@@ -11,7 +11,7 @@
 	"devDependencies": {
 		"@firebase/app-types": "^0.7.0",
 		"@sveltejs/adapter-node": "next",
-		"@sveltejs/kit": "1.0.0-next.444",
+		"@sveltejs/kit": "next",
 		"@types/cookie": "^0.5.1",
 		"firebase": "^9.9.3",
 		"firebase-admin": "^11.0.1",
