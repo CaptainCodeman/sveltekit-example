@@ -1,12 +1,14 @@
-import { derived } from 'svelte/store'
+import { derived, writable } from 'svelte/store'
 import { browser } from '$app/environment'
-import { invalidate } from '$app/navigation'
 import { page } from '$app/stores'
-import { dedupe } from './dedupe'
 import { auth } from './auth'
 
+// internal store allows us to override the page data session without having to invalidate LayoutData
+const internal = writable()
+
 // derived store from page data to provide our session
-export const session = dedupe(derived(page, $page => $page.data.session))
+export const external = derived(page, $page => $page.data.session)
+export const session = derived([internal, external], ([$internal, $external]) => $internal || $external)
 
 // if we're using session, we need to keep the server-side auth-state in sync with the client
 // this subscribes to the firebase client-side auth state and posts changes back to the server
@@ -29,12 +31,11 @@ async function syncSession() {
           : fetch('/session', {
             method: 'delete'
           })
-        const res = await req
 
         // TODO: handle errors if session can't be set on server ...
-
-        // invalidate the session to re-populate the session store
-        await invalidate()
+        const res = await req
+        const data = await res.json()
+        internal.set(data)
       })
     }
   })
