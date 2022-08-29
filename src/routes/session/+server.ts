@@ -29,5 +29,9 @@ export const DELETE: RequestHandler = async ({ }) => {
 }
 
 export function getSession(user: DecodedIdToken | null) {
+  if (user) {
+    const { name, email, email_verified, uid } = user
+    return { user: { name, email, email_verified, uid } }
+  }
   return { user }
 }
