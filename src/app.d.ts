@@ -11,15 +11,7 @@ declare namespace App {
   interface PageData {
     // we're making user a property of session in case it needs to contain other things
     // it would be possible, for instance, to have use preferences set even if not auth'd
-    session: {
-      user: {
-        name: string,
-        email: string,
-        email_verified:
-        boolean,
-        uid: string
-      } | null
-    }
+    session: import('$lib/types').Session
   }
 
   // interface PrivateEnv {}

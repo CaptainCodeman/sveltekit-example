@@ -4,6 +4,7 @@ import type { RequestHandler } from './$types'
 import { auth } from '$lib/admin'
 import { json } from '@sveltejs/kit'
 import type { DecodedIdToken } from 'firebase-admin/auth'
+import type { Session } from '$lib/types'
 
 const WEEK_IN_SECONDS = 60 * 60 * 24 * 7
 const WEEK_IN_MILLISECONDS = WEEK_IN_SECONDS * 1000
@@ -28,10 +29,10 @@ export const DELETE: RequestHandler = async ({ }) => {
   return json(getSession(null), { headers: { 'Set-Cookie': cookie } })
 }
 
-export function getSession(user: DecodedIdToken | null) {
+export function getSession(user: DecodedIdToken | null): Session {
   if (user) {
     const { name, email, email_verified, uid } = user
-    return { user: { name, email, email_verified, uid } }
+    return { user: { name, email: email!, email_verified: email_verified!, uid } }
   }
   return { user }
 }

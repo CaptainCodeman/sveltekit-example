@@ -3,12 +3,14 @@ import { browser } from '$app/environment'
 import { page } from '$app/stores'
 import { auth } from './auth'
 import { dedupe } from './dedupe'
+import type { Session } from './types'
 
 // internal store allows us to override the page data session without having to invalidate LayoutData
-const internal = writable()
+const internal = writable<Session>()
 
 // derived store from page data to provide our session
-export const external = dedupe(derived(page, $page => $page.data.session))
+const external = dedupe(derived(page, $page => $page.data.session))
+
 export const session = derived([internal, external], ([$internal, $external]) => $internal || $external)
 
 // if we're using session, we need to keep the server-side auth-state in sync with the client
@@ -35,7 +37,7 @@ async function syncSession() {
 
         // TODO: handle errors if session can't be set on server ...
         const res = await req
-        const data = await res.json()
+        const data: Session = await res.json()
         internal.set(data)
       })
     }
