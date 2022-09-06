@@ -1,4 +1,3 @@
-import { serialize } from 'cookie'
 import { dev } from '$app/environment'
 import type { RequestHandler } from './$types'
 import { auth } from '$lib/admin'
@@ -10,23 +9,22 @@ const WEEK_IN_SECONDS = 60 * 60 * 24 * 7
 const WEEK_IN_MILLISECONDS = WEEK_IN_SECONDS * 1000
 
 // POST receives the client-side auth token, validates it and sets a cookie for future server-requests
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, cookies }) => {
   const token = await request.text()
 
   const user = await auth.verifyIdToken(token)
   const sessionCookie = await auth.createSessionCookie(token, { expiresIn: WEEK_IN_MILLISECONDS })
   const options = { maxAge: WEEK_IN_SECONDS, httpOnly: true, secure: !dev }
-  const cookie = serialize('session', sessionCookie, options)
+  cookies.set('session', sessionCookie, options)
 
-  return json(getSession(user), { headers: { 'Set-Cookie': cookie } })
+  return json(getSession(user))
 }
 
 // DELETE clears the session cookie
-export const DELETE: RequestHandler = async ({ }) => {
-  const options = { expires: new Date(0), httpOnly: true, secure: !dev }
-  const cookie = serialize('session', '', options)
+export const DELETE: RequestHandler = async ({ cookies }) => {
+  cookies.delete('session')
 
-  return json(getSession(null), { headers: { 'Set-Cookie': cookie } })
+  return json(getSession(null))
 }
 
 export function getSession(user: DecodedIdToken | null): Session {

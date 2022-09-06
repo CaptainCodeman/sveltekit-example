@@ -1,15 +1,13 @@
 import { auth } from '$lib/admin'
 import type { Handle } from '@sveltejs/kit'
-import { parse } from 'cookie'
 
 export const handle: Handle = async ({ event, resolve }) => {
-  const { locals, request } = event
+  const { cookies, locals } = event
 
   locals.user = null  // default if session cookie fails
 
   // decode the cookie and get the session property
-  const cookies = parse(request.headers.get('cookie') || '')
-  const { session } = cookies
+  const session = cookies.get('session')
 
   if (session) {
     // if session cookie is set, verify it is valid and set the user from it
