@@ -1,6 +1,6 @@
 import { dev } from '$app/environment'
 import type { RequestHandler } from './$types'
-import { auth } from '$lib/admin'
+import { auth } from '$lib/admin.server'
 import { json } from '@sveltejs/kit'
 import type { DecodedIdToken } from 'firebase-admin/auth'
 import type { Session } from '$lib/types'
